@@ -9,7 +9,11 @@ abstract class Wasp {
 
   def getHit() : Unit = {
     hitpoints=hitpoints-damagePerHit;
-    if (hitpoints<=0) isAlive=false;
+    println(s"You hit a ${this.getClass.getSimpleName}, it took ${damagePerHit} damage and it now has ${hitpoints}HP ")
+    if (hitpoints<=0) {
+      isAlive = false;
+      this.die
+    }
   }
 
   def die : Unit
