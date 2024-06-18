@@ -28,6 +28,22 @@ class Nest(waspsInNest : Array[Wasp] = new Array[Wasp](0)) {
     waspsInNest.lift(randomIndex).get
   }
 
+  def hasWasps : Boolean = {
+    if (waspsInNest.length != 0) true
+    else false
+  }
+
+  def removeDeadWasps() : Nest = {
+    new Nest(waspsInNest.filter(wasp => wasp.isAlive))
+  }
+
+  def killAllWasps() : Nest = {
+    val deadWasps = waspsInNest.map(wasp => {
+      wasp.isAlive = false
+      wasp
+    }) : Array[Wasp]
+    new Nest(deadWasps)
+  }
 
 
 
