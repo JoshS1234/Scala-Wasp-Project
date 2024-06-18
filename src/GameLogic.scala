@@ -5,5 +5,9 @@ object GameLogic extends App {
   nest.displayWasps()
 
   println(nest.selectRandomWasp().describe)
+  PlayerMessages.playerTurn()
+
+
+
 
 }
