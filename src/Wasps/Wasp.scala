@@ -1,26 +1,31 @@
+package Wasps
+
 import java.util.UUID
 
-abstract class Wasp {
+abstract class Wasp(hitpoints : Int) {
 
   val id : UUID = UUID.randomUUID()
-  var hitpoints : Int
   val damagePerHit : Int
-  var isAlive : Boolean = true
+//  var isAlive : Boolean = true
 
-  def getHit() : Unit = {
-    hitpoints=hitpoints-damagePerHit;
-    println(s"You hit a ${this.getClass.getSimpleName}, it took ${damagePerHit} damage and it now has ${hitpoints}HP ")
-    if (hitpoints<=0) {
-      isAlive = false;
-      this.die
-    }
-  }
+  def getHit : Wasp
 
-  def die : Unit
+  def die : Unit = println(s"A ${this.getClass.getSimpleName} has died")
 
   def describe : String = {
     s"This ${this.getClass.getSimpleName} has ${hitpoints}HP and takes ${damagePerHit} damage per hit"
   }
+
+  def displayImage : String
+
+  def isAlive : Boolean = {
+    if (hitpoints>0) true
+    else false
+  }
+
+  def getHitpoints : Int = hitpoints
+
+  def setHP(HP : Int) : Wasp
 
 
 }

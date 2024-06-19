@@ -1,8 +1,11 @@
+import Wasps.{Nest, Wasp}
+
 import scala.util.control.Breaks.break
 
 object GameLogic extends App {
 
   var nest : Nest = new Nest();
+//  println(new WaspQueen().displayImage)
   runGame()
 
 
@@ -17,23 +20,36 @@ object GameLogic extends App {
     nest = new Nest();
     nest = nest.populateNest()
     nest.displayWasps()
-    println(nest.selectRandomWasp().describe)
   }
 
   def playGame() : Unit = {
+    var autofire=false;
+    var turns : Int = 1
     while (nest.hasWasps) {
-      var playerTurnChoice : Int = PlayerMessages.playerTurn()
-      if (playerTurnChoice == 1) {
-        attackTurn()
-      } else if (playerTurnChoice ==2 ) {
-        println("Quitting game...")
-        break
+      println("_".repeat(10))
+      println("Turn number "+ turns)
+
+
+      if (!autofire) {
+        var playerTurnChoice : Int = PlayerMessages.playerTurn()
+        if (playerTurnChoice == 1) {
+          attackTurn()
+        } else if (playerTurnChoice ==2 ) {
+          println("Quitting game...")
+          break
+        }  else if (playerTurnChoice ==3 ) {
+          println("Auto-fire switched on")
+          autofire=true;
+        } else {
+          throw new Exception("Something went wrong")
+        }
       } else {
-        throw new Exception("Something went wrong")
+        attackTurn()
       }
+      turns = turns + 1
     }
 
-    var replayChoice : Int = PlayerMessages.replayGameMessage()
+    val replayChoice : Int = PlayerMessages.replayGameMessage()
     if (replayChoice == 1) {
       runGame()
     } else {
@@ -42,13 +58,13 @@ object GameLogic extends App {
   }
 
   def attackTurn() : Unit = {
-    val waspToHit : Wasp = nest.selectRandomWasp()
-    waspToHit.getHit()
-    if (waspToHit.getClass.getSimpleName == "WaspQueen" && !waspToHit.isAlive) {
+    nest =  nest.hitRandomWasp()
+    if (!nest.hasQueen) {
       nest = nest.killAllWasps()
+    } else {
+      summary()
     }
     nest = nest.removeDeadWasps()
-    summary()
   }
 
   def summary() : Unit = {
