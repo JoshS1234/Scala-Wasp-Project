@@ -19,13 +19,14 @@ object GameLogic extends App {
   def setupGame() : Unit = {
     nest = new Nest();
     nest = nest.populateNest()
-    nest.displayWasps()
+    summary()
   }
 
   def playGame() : Unit = {
     var autofire=false;
     var turns : Int = 1
-    while (nest.hasWasps) {
+    var keepPlaying : Boolean = true
+    while (nest.hasWasps && keepPlaying) {
       println("_".repeat(10))
       println("Turn number "+ turns)
 
@@ -36,7 +37,7 @@ object GameLogic extends App {
           attackTurn()
         } else if (playerTurnChoice ==2 ) {
           println("Quitting game...")
-          break
+          keepPlaying=false
         }  else if (playerTurnChoice ==3 ) {
           println("Auto-fire switched on")
           autofire=true;
@@ -58,7 +59,9 @@ object GameLogic extends App {
   }
 
   def attackTurn() : Unit = {
+    println("-".repeat(10))
     nest =  nest.hitRandomWasp()
+    println("-".repeat(10))
     if (!nest.hasQueen) {
       nest = nest.killAllWasps()
     } else {
@@ -68,6 +71,7 @@ object GameLogic extends App {
   }
 
   def summary() : Unit = {
+    println("Summary: ")
     nest.displayWasps()
   }
 

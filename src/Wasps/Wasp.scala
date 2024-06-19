@@ -2,7 +2,7 @@ package Wasps
 
 import java.util.UUID
 
-abstract class Wasp(hitpoints : Int) {
+abstract class Wasp(hitpoints : Int) extends CanDie {
 
   val id : UUID = UUID.randomUUID()
   val damagePerHit : Int
@@ -10,10 +10,10 @@ abstract class Wasp(hitpoints : Int) {
 
   def getHit : Wasp
 
-  def die : Unit = println(s"A ${this.getClass.getSimpleName} has died")
+  override def die : Unit = println(s"A ${this.getClass.getSimpleName} has died")
 
   def describe : String = {
-    s"This ${this.getClass.getSimpleName} has ${hitpoints}HP and takes ${damagePerHit} damage per hit"
+    s"${this.getClass.getSimpleName} : ${hitpoints}HP"
   }
 
   def displayImage : String
